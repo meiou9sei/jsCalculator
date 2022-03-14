@@ -29,8 +29,8 @@ function divide(a, b) {
 function operate (userInput) {
 
     //regexs
-    const REGEX_NUM_OP_NUM = /\d+[\+\-\*x\\]\d+/; //regex for number, then +, -, */x, or /, then number
-    const REGEX_OPERATORS = /([\+\-\*x\\])/; //regex for operators, w/ catching brackets () (used for .split)
+    const REGEX_NUM_OP_NUM = /\d+[\+\-\*x\/]\d+/; //regex for number, then +, -, */x, or /, then number
+    const REGEX_OPERATORS = /([\+\-\*x\/])/; //regex for operators, w/ catching brackets () (used for .split)
     
     /* 
         notes: 
