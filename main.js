@@ -29,8 +29,8 @@ function divide(a, b) {
 function operate (userInput) {
 
     //regexs
-    const regexNumSumNum = /\d+[\+\-\*x\\]\d+/; //regex for number, then +, -, */x, or /, then number
-    const regexNum = /\d+/; //regex for number (digit+)
+    const REGEX_NUM_OP_NUM = /\d+[\+\-\*x\\]\d+/; //regex for number, then +, -, */x, or /, then number
+    const REGEX_OPERATORS = /([\+\-\*x\\])/; //regex for operators, w/ catching brackets () (used for .split)
     
     /* 
         notes: 
@@ -38,12 +38,19 @@ function operate (userInput) {
         I'm not sure if you use a regex or not for that
     */
 
-    if (!regexNumSumNum.test(userInput)) {
+    //rejects if not an equation formatted properly
+    if (!REGEX_NUM_OP_NUM.test(userInput)) {
         console.log("bad equation");
         return;
     }
 
-    // DO A .split HERE OF userInput AND PASS INTO BELOW SWITCH
+    //splits the equation into num1, operator, num2
+    const splitOperation = userInput.split(REGEX_OPERATORS);
+    console.log(splitOperation);
+  
+    const num1 = Number(splitOperation[0]);
+    const operator = splitOperation[1];
+    const num2 = Number(splitOperation[2]);
 
     //switch determines which operation to use
     // prob need to return some variable later, for use in equations like 1 + 2 - 3 -> need to separate to 1 + 2, then 3 - 3
