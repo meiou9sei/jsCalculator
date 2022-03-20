@@ -26,6 +26,7 @@ function divide(a, b) {
 }
 
 // determines which math function to use
+// operate works when pass in string
 function operate (userInput) {
 
     //regexs
@@ -38,6 +39,10 @@ function operate (userInput) {
         I'm not sure if you use a regex or not for that
     */
 
+    //removes all whitespace
+    userInput = userInput.replace(/\s/g,"");
+
+    
     //rejects if not an equation formatted properly
     if (!REGEX_NUM_OP_NUM.test(userInput)) {
         console.log("bad equation");
