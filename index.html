@@ -7,72 +7,88 @@
     <title>not the best calculator</title>
     <script src="main.js" defer></script>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet"> 
 </head>
 <body>
-    welcome to my calculator. under construction
-    <hr>
-    https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/calculator
-    <hr>
-    https://github.com/meiousei9
+    <div class="title-container">
+        <h1>A <span class="chocolate">chocolate calculator</span> to crunch some <span class="vanilla">math</span></h1>
+    </div>
 
     <!-- CALCULATOR BODY -->
     <main>
 
 
         <div id="calculator-body">
+
+            <!-- DISPLAY -->
+            <div id="display">4649</div>
+
             <!-- INPUT BUTTONS ON CALCULATOR -->
             <div class="inputButtons">
-                <div class="numInput">
+                <button type="button" class="numInput">
                     7
-                </div>
-                <div class="numInput">
+                </button>
+                <button type="button" class="numInput">
                     8
-                </div>
-                <div class="numInput">
+                </button>
+                <button type="button" class="numInput">
                     9
-                </div>
-                <div class="numInput">
+                </button>
+                <button type="button" class="nonNumInput">
                     +
-                </div>
-                <div class="numInput">
+                </button>
+                <button type="button" class="numInput">
                     4
-                </div>
-                <div class="numInput">
+                </button>
+                <button type="button" class="numInput">
                     5
-                </div>
-                <div class="numInput">
+                </button>
+                <button type="button" class="numInput">
                     6
-                </div>
-                <div class="numInput">
+                </button>
+                <button type="button" class="nonNumInput">
                     -
-                </div>
-                <div class="numInput">
+                </button>
+                <button type="button" class="numInput">
                     1
-                </div>
-                <div class="numInput">
+                </button>
+                <button type="button" class="numInput">
                     2
-                </div>
-                <div class="numInput">
+                </button>
+                <button type="button" class="numInput">
                     3
-                </div>
-                <div class="numInput">
+                </button>
+                <button type="button" class="nonNumInput">
                     x
-                </div>
-                <div class="numInput">
+                </button>
+                <button type="button" class="numInput">
                     0
-                </div>
-                <div class="numInput">
+                </button>
+                <button type="button" class="nonNumInput">
                     .
-                </div>
-                <div class="numInput">
+                </button>
+                <button type="button" class="nonNumInput">
                     =
-                </div>
-                <div class="numInput">
+                </button>
+                <button type="button" class="nonNumInput">
                     /
-                </div>
+                </button>
             </div>
+
+            <button type="button" class="nonNumInput" id="clear">
+                clear
+            </button>
+
         </div>
 
     </main>
+
+    <footer>
+        <p class="footer-text">Webpage created by <a href="https://github.com/meiousei9" class="links" target=_blank>meiousei9</a> as part of <a href="https://theodinproject.com" class="links" target=_blank>The Odin Project</a> foundations course curriculum.</p>
+        <p><small><a href=https://github.com/meiousei9/jsCalculator class="links" target=_blank>See the code for this page</a></small></p> 
+    </footer>
+
 </body>
 </html>

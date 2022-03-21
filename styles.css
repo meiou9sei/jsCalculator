@@ -1,4 +1,6 @@
+/*************/
 /* CSS RESET */
+/*************/
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -49,26 +51,119 @@ table {
 	border-spacing: 0;
 }
 
+/***************/
 /* CSS RESET ^ */
+/***************/
 
+/*****************/
 /* COLOR PALETTE */
+/*****************/
 :root {
-    --main: #F19953;
-    --light: #EDF7F6
-    --dark: #C47335;
-    --bglight: #56531E;
-    --bgdark: #2660A4;
+    --main: #CC8B86;
+    --mainLight: #F9EAE1;
+    --secondLight: #D1BE9C;
+    --secondMain: #086375;
+    --secondDark: #613031;
 }
 
+/********/
+/* FONT */
+/********/
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.chocolate {
+	color: var(--secondDark);
+	text-shadow: 2px 2px 2px var(--mainLight);
+	font-weight: bold;
+}
+
+.vanilla {
+	color: var(--mainLight);
+	text-shadow: 2px 2px 2px var(--secondMain);
+	font-weight: bold;
+}
+
+h1 {
+	font-size: 4rem;
+	font-family: 'Caveat', cursive;
+}
+
+.links {
+	text-decoration: none;
+	color: var(--secondMain);
+}
+
+.links:hover {
+	color: var(--mainLight)
+}
+
+#calculator-body > *,
+#calculator-body > * > *{
+	font-size: 2rem;
+}
+
+#display {
+	font-size: 3rem;
+}
+
+footer {
+	color: var(--secondDark);
+}
+
+/**************/
 /* CONTAINERS */
+/**************/
+body {
+	background-color: var(--secondLight);
+}
+
+h1 {
+	background-color: var(--main);
+	color: black;
+	text-align: center;
+	padding: 10px;
+}
+
 #calculator-body {
     max-width: 750px;
     margin: auto;
+	background-color: var(--secondDark);
+	margin: 25px;
+	padding: 10px;
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
 }
 
+#display {
+	text-align: right;
+	padding: 10px;
+	background-color: var(--mainLight);
+	color: var(--secondMain);
+}
 
+footer {
+	padding: 10px;
+	background-color: var(--main);
+	text-align: center;
+}
+
+/********/
 /* GRID */
+/********/
 .inputButtons {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+/**********************/
+/* CALCULATOR BUTTONS */
+/**********************/
+.numInput,
+.nonNumInput {
+	color: var(--mainLight);
+	background-color: var(--secondDark);
+	padding: 10px;
 }
