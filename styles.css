@@ -128,9 +128,8 @@ h1 {
 
 #calculator-body {
     max-width: 750px;
-    margin: auto;
+    margin: 25px auto;
 	background-color: var(--secondDark);
-	margin: 25px;
 	padding: 10px;
 	border-radius: 5px;
 	display: flex;
@@ -162,7 +161,8 @@ footer {
 /* CALCULATOR BUTTONS */
 /**********************/
 .numInput,
-.nonNumInput {
+.opInput,
+.specialInput {
 	color: var(--mainLight);
 	background-color: var(--secondDark);
 	padding: 10px;

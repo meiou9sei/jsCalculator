@@ -1,9 +1,12 @@
-
 main();
 
+//global variables
 
 
 function main() {
+
+    makeButtonsClickable();
+
     let userInput = window.prompt("Enter a simple math equation: ");
     operate(userInput);
 }
@@ -25,19 +28,19 @@ function divide(a, b) {
     return a / b;
 }
 
+///////////////
+// FUNCTIONS //
+///////////////
+
 // determines which math function to use
 // operate works when pass in string
 function operate (userInput) {
 
+
+    /////////////MAKE THIS ITS OWN FUNCTION - "CHECKIFEQUATION"///////////
     //regexs
     const REGEX_NUM_OP_NUM = /\d+[\+\-\*x\/]\d+/; //regex for number, then +, -, */x, or /, then number
     const REGEX_OPERATORS = /([\+\-\*x\/])/; //regex for operators, w/ catching brackets () (used for .split)
-    
-    /* 
-        notes: 
-        I think you need to .split based on number, operator, number
-        I'm not sure if you use a regex or not for that
-    */
 
     //removes all whitespace
     userInput = userInput.replace(/\s/g,"");
@@ -49,6 +52,7 @@ function operate (userInput) {
         return;
     }
 
+
     //splits the equation into num1, operator, num2
     const splitOperation = userInput.split(REGEX_OPERATORS);
     console.log(splitOperation);
@@ -56,6 +60,10 @@ function operate (userInput) {
     const num1 = Number(splitOperation[0]);
     const operator = splitOperation[1];
     const num2 = Number(splitOperation[2]);
+
+
+    /////////////////////////////////////////////
+
 
     //switch determines which operation to use
     // prob need to return some variable later, for use in equations like 1 + 2 - 3 -> need to separate to 1 + 2, then 3 - 3
@@ -77,4 +85,53 @@ function operate (userInput) {
             console.log("invalid operator");
             break;
     } 
+}
+
+//makes buttons clickable
+function makeButtonsClickable() {
+    //makes NUMBERS AND OPERATORS buttons do things
+    const inputButtons = document.querySelectorAll('.inputButtons > button');
+    
+    inputButtons.forEach(inputButton => {
+        inputButton.addEventListener('click', () => displayOnDisplay(inputButton.textContent));
+    });
+
+    //makes CLEAR button do things
+    const clearButton = document.querySelector('#clearButton');
+
+    clearButton.addEventListener('click', () => clearDisplay());
+
+}
+
+//makes input display on display, then store that variable into 
+function displayOnDisplay(input) {
+    input = input.trim(); //gets rid of extra space, idk why it's there
+
+    const display = document.querySelector('#display');
+    
+    if ( !isNaN(input) ) {
+    //for numbers 
+        if (display.textContent === "0") {
+            display.textContent = input;
+        } else {
+            display.textContent += input;    
+        }
+    } else if (input === ".") {
+    //for decimal
+        display.textContent += input;
+    } else {
+    //for operators 
+        display.textContent += " " + input + " ";
+    }
+}
+
+//clear display and equation (used by clear button)
+function clearDisplay() {
+    const display = document.querySelector('#display');
+    
+    if (display.textContent !== "0") {
+        display.textContent = "0";
+    } else {
+        //code to reset operation too
+    }
 }
