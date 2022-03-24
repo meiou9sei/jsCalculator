@@ -69,6 +69,7 @@ table {
 /********/
 /* FONT */
 /********/
+
 body {
 	font-family: Arial, Helvetica, sans-serif;
 }
@@ -104,8 +105,14 @@ h1 {
 	font-size: 2rem;
 }
 
-#display {
+#historyDisplay {
+	font-size: 1.5rem;
+	color: var(--secondDark);
+}
+
+#mainDisplay {
 	font-size: 3rem;
+	color: var(--secondMain);
 }
 
 footer {
@@ -136,11 +143,22 @@ h1 {
 	flex-direction: column;
 }
 
-#display {
-	text-align: right;
-	padding: 10px;
+#displayContainer {
+	min-height: 82px;
+	padding: 0 10px;
 	background-color: var(--mainLight);
-	color: var(--secondMain);
+	display: flex;
+	flex-direction: column;
+}
+
+#historyDisplay, 
+#mainDisplay {
+	text-align: right;
+	padding-top: 5px;
+}
+
+#mainDisplay {
+	margin-top: auto;
 }
 
 footer {

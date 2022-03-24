@@ -23,7 +23,10 @@
         <div id="calculator-body">
 
             <!-- DISPLAY -->
-            <div id="display">0</div>
+            <div id="displayContainer">
+                <div id="historyDisplay"></div>
+                <div id="mainDisplay">0</div>
+            </div>
 
             <!-- INPUT BUTTONS ON CALCULATOR -->
             <div class="inputButtons">
@@ -66,13 +69,13 @@
                 <button type="button" class="numInput">
                     0
                 </button>
-                <button type="button" class="specialInput">
+                <button type="button" class="numInput">
                     .
                 </button>
-                <button type="button" class="specialInput">
+                <button type="button" class="specialInput" id="equalButton">
                     =
                 </button>
-                <button type="button" class="opInput">
+                <button type="button" class="opInput" id="equalButton">
                     /
                 </button>
             </div>
