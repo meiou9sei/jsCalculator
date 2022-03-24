@@ -5,6 +5,8 @@
 //REGEXS
 const REGEX_NUM_OP_NUM = /\-?\d+[\+\-\*x\/]\-?\d+/; //regex for (+/-) number, then +, -, */x, or /, then (+/-) number
 const REGEX_OPERATORS = /([\+\-\*x\/])/; //regex for operators, w/ catching brackets () (used for .split)
+const REGEX_OPERATORS_WITH_GLOBAL = /([\+\-\*x\/])/g; //using global tag on above broke some if/else, so made a special one if need a global tag
+// further info see: https://stackoverflow.com/questions/59694142/regex-testvalue-returns-true-when-logged-but-false-within-an-if-statement
 const REGEX_NEGATIVE_NUM = /\-\d+/;
 
 //SELECTORS
@@ -34,7 +36,6 @@ function makeButtonsClickable() {
     inputButtons.forEach(inputButton => {
         inputButton.addEventListener('click', () => displayOnMainDisplay(inputButton.textContent));
     });
-    console.log("nofun");
 
     //makes CLEAR button do things
     clearButton.addEventListener('click', () => clearDisplay());
@@ -44,7 +45,7 @@ function makeButtonsClickable() {
 }
 
 //makes input display on mainDisplay, then store that variable into 
-function displayOnMainDisplay(input) {
+function displayOnMainDisplay(input) { 
     if (typeof input === "string")
         input = input.trim(); //gets rid of extra space, idk why it's there
     
@@ -60,18 +61,58 @@ function displayOnMainDisplay(input) {
         mainDisplay.textContent = input;
     } else {
         //for operators 
+        //console.log(" ");
+        //console.log("mainDisplay.textContent is " + mainDisplay.textContent + " before operators if/else");
         if (REGEX_OPERATORS.test(mainDisplay.textContent)) {
+            //console.log("REGEX_OPERATORS detected, entered if portion");
             //if there's an operator prior in the equation
-            checkIfEquation(mainDisplay.textContent);
-            
-            if (REGEX_NEGATIVE_NUM.test(mainDisplay.textContent)) {
-                //if it fails the equation test and there's a negative number
+            let equationWorked = checkIfEquation(mainDisplay.textContent);
+            //console.log("mainDisplay already has " +  mainDisplay.textContent.match(REGEX_OPERATORS_WITH_GLOBAL).length + " operators");
+
+            if (!equationWorked) {
+                if (mainDisplay.textContent.match(REGEX_OPERATORS_WITH_GLOBAL).length >= 1) {
+                    //if more than one operator found, does not add new operator (unless it's a negative number)
+                    if (REGEX_NEGATIVE_NUM.test(mainDisplay.textContent)) {
+                        if (mainDisplay.textContent.match(REGEX_OPERATORS_WITH_GLOBAL).length >= 2) {
+                            //for negative number first, switching the operator (technically the second operator in equation)
+                            //remove last operator and replace it with new entry
+                            let replaceMe = mainDisplay.textContent.slice(-3);
+                            //console.log(replaceMe);
+                            let newEquation = mainDisplay.textContent.replace(replaceMe, " " + input + " "); 
+                            //console.log(newEquation);
+                            mainDisplay.textContent = newEquation;
+                            
+                            return;
+                        }
+                        else {
+                            mainDisplay.textContent += " " + input + " ";
+                            //console.log("whackabug1");        
+                        }
+
+                    }
+
+                    //for no negative numbers, switching the operator
+                    //remove last operator and replace it with new entry
+                    let replaceMe = mainDisplay.textContent.slice(-3);
+                    //console.log(replaceMe);
+                    let newEquation = mainDisplay.textContent.replace(replaceMe, " " + input + " "); 
+                    //console.log(newEquation);
+                    mainDisplay.textContent = newEquation;
+
+                    return;
+                }   
+
+            } else {
+                //if only one operator found prior, allows new operator to be added
                 mainDisplay.textContent += " " + input + " ";
+                //console.log("whackabug2")
             }
-            
+      
         } else {
             //simple, no operators prior to this input
+            //console.log("entered else portion, mainDisplay.textContent is " + mainDisplay.textContent);
             mainDisplay.textContent += " " + input + " ";
+            //console.log("whackabug3");
         }
     }
 }
@@ -95,20 +136,29 @@ function clearDisplay() {
 function checkIfEquation (equation) {
     //removes all whitespace
     let equationNoSpace = equation.replace(/\s/g,"");
-    
+    console.log(equationNoSpace);
+
     //returns if not an equation formatted properly
     if (!REGEX_NUM_OP_NUM.test(equationNoSpace)) {
         console.log("not an equation");
-        return;
+        return false;
+    }
+
+    let splitEquation = null;
+    if (REGEX_NEGATIVE_NUM.test(equation)) {
+        //deals with first number being negative 
+        splitEquation = equation.split(" ");
+        //console.log("if " + splitEquation);
+    } else {
+        //if first number is not negative
+        splitEquation = equation.split(REGEX_OPERATORS);
+        //console.log("else " + splitEquation);        
     }
 
     //splits the equation into num1, operator, num2
-    const splitOperation = equation.split(REGEX_OPERATORS);
-    console.log(splitOperation);
-    
-    const num1 = Number(splitOperation[0]);
-    const operator = splitOperation[1];
-    const num2 = Number(splitOperation[2]);
+    const num1 = Number(splitEquation[0]);
+    const operator = splitEquation[1];
+    const num2 = Number(splitEquation[2]);
 
     //call operate
     let result = operate (num1, operator, num2);
@@ -116,6 +166,8 @@ function checkIfEquation (equation) {
     displayOnHistoryDisplay(equation);
     clearDisplay();
     displayOnMainDisplay(result);
+
+    return true;
 }
 
 // determines which math function to use
