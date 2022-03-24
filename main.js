@@ -87,7 +87,8 @@ function clearDisplay() {
         //if there are numbers in mainDisplay
         mainDisplay.textContent = "0";
     } else {
-        //code to reset operation too
+        //resets history display if mainDisplay is already cleared ("0")
+        historyDisplay.textContent = "0";
     }
 }
 
