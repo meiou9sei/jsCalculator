@@ -133,6 +133,10 @@ h1 {
 	padding: 10px;
 }
 
+.title-container {
+	text-align: center;
+}
+
 #calculator-body {
     max-width: 750px;
     margin: 25px auto;
