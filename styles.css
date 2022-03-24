@@ -89,6 +89,8 @@ body {
 h1 {
 	font-size: 4rem;
 	font-family: 'Caveat', cursive;
+	color: black;
+	text-align: center;
 }
 
 .links {
@@ -126,10 +128,17 @@ body {
 	background-color: var(--secondLight);
 }
 
+.page-container {
+	position: relative;
+	min-height: 100vh;
+}
+
+main {
+	padding-bottom: 2.5rem;
+}
+
 h1 {
 	background-color: var(--main);
-	color: black;
-	text-align: center;
 	padding: 10px;
 }
 
@@ -166,7 +175,11 @@ h1 {
 }
 
 footer {
-	padding: 10px;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 2.5rem;
+	padding-top: 15px;
 	background-color: var(--main);
 	text-align: center;
 }
