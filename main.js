@@ -11,6 +11,9 @@ const REGEX_OPERATORS_WITH_GLOBAL = /([\+\-\*x\/])/g; //using global tag on abov
 const REGEX_NEGATIVE_NUM = /\-\d+/; //checks if negative number
 const REGEX_DECIMAL_IN_NUM = /\-?\d*\.\d*/ // checks if decimal is in number
 
+//global
+newEquation = false; //sets flag to true on operate, prevents new number input just concatenating to old number. if operator, then operates on old number regardless
+
 //SELECTORS
 const inputButtons = document.querySelectorAll('.numInput, .opInput'); //NOTE: PERIOD "." IS INCLUDED UNDER ".numInput"
 const clearButton = document.querySelector('#clearButton');
@@ -43,16 +46,19 @@ function makeButtonsClickable() {
     clearButton.addEventListener('click', () => clearDisplay());
 
     //makes ENTER button (=) do things
-    equalButton.addEventListener('click', () => checkIfEquation(mainDisplay.textContent));
+    equalButton.addEventListener('click', () => evaluateEquation(mainDisplay.textContent));
 }
 
 //makes input display on mainDisplay, then store that variable into 
 function displayOnMainDisplay(input) { 
-    if (typeof input === "string")
+    if (typeof input === "string") //this is not used if calling function from evaluateEquation
         input = input.trim(); //gets rid of extra space, idk why it's there
     
     if ( !isNaN(input) || input === "." ) {
         //for numbers or decimal point
+
+        if (newEquation) //clears display if new equation
+            clearDisplay();
 
         if (input === "." || input === "0") {
             //prevent multiple decimals in a number
@@ -106,7 +112,7 @@ function displayOnMainDisplay(input) {
         if (REGEX_OPERATORS.test(mainDisplay.textContent)) {
             //console.log("REGEX_OPERATORS detected, entered if portion");
             //if there's an operator prior in the equation
-            let equationWorked = checkIfEquation(mainDisplay.textContent);
+            let equationWorked = evaluateEquation(mainDisplay.textContent);
             //console.log("mainDisplay already has " +  mainDisplay.textContent.match(REGEX_OPERATORS_WITH_GLOBAL).length + " operators");
 
             if (!equationWorked) {
@@ -155,11 +161,13 @@ function displayOnMainDisplay(input) {
             //console.log("whackabug3");
         }
     }
+
+    newEquation = false; //set flag false for any future input
 }
 
 //displays equation performed in historyDisplay
-function displayOnHistoryDisplay(equation) {
-    historyDisplay.textContent = equation;
+function displayOnHistoryDisplay(equation, result) {
+    historyDisplay.textContent = `${equation} = ${result}`;
 }
 
 //clear display and equation (used by clear button)
@@ -167,13 +175,15 @@ function clearDisplay() {
     if (mainDisplay.textContent !== "0") {
         //if there are numbers in mainDisplay
         mainDisplay.textContent = "0";
-    } else {
+    } else if (!newEquation) {
         //resets history display if mainDisplay is already cleared ("0")
         historyDisplay.textContent = "0";
     }
+    newEquation = false; //set to false if click clear button
 }
 
-function checkIfEquation (equation) {
+//checks if equation. if not, returns false. if true, calls operate, displays result on mainDisplay and historyDisplay, and returns true 
+function evaluateEquation (equation) {
     //removes all whitespace
     let equationNoSpace = equation.replace(/\s/g,"");
     console.log(equationNoSpace);
@@ -209,12 +219,13 @@ function checkIfEquation (equation) {
     const num2 = Number(splitEquation[2]);
 
     //call operate
-    let result = operate (num1, operator, num2);
+    let result = operate(num1, operator, num2);
 
-    displayOnHistoryDisplay(equation);
+    displayOnHistoryDisplay(equation, result);
     clearDisplay();
     displayOnMainDisplay(result);
 
+    newEquation = true; 
     return true;
 }
 
