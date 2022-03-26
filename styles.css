@@ -131,6 +131,8 @@ body {
 .page-container {
 	position: relative;
 	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 }
 
 main {
@@ -201,4 +203,16 @@ footer {
 	color: var(--mainLight);
 	background-color: var(--secondDark);
 	padding: 10px;
+}
+
+
+/***************/
+/* MEDIA QUERY */
+/***************/
+
+@media only screen and (max-width: 650px) {
+	footer {
+		position: static;
+		height: 5rem;
+	}
 }
