@@ -3,11 +3,13 @@
 //////////////////////
 
 //REGEXS
-const REGEX_NUM_OP_NUM = /\-?\d+[\+\-\*x\/]\-?\d+/; //regex for (+/-) number, then +, -, */x, or /, then (+/-) number
+const REGEX_NUM_OP_NUM = /\-?\d+\.?[\+\-\*x\/]\-?\.?\d+\.?/; //regex for (+/-) number, then +, -, */x, or /, then (+/-) number. numbers may or may not contain decimal at beginning, within (I think is covered by normal \d tag), or end
 const REGEX_OPERATORS = /([\+\-\*x\/])/; //regex for operators, w/ catching brackets () (used for .split)
+const ARRAY_OPERATORS = ["+", "-", "x", "*", "/"]; //used for checking decimal flag later (newDecimalAllowed in displayOnMainDisplay) 
 const REGEX_OPERATORS_WITH_GLOBAL = /([\+\-\*x\/])/g; //using global tag on above broke some if/else, so made a special one if need a global tag
 // further info see: https://stackoverflow.com/questions/59694142/regex-testvalue-returns-true-when-logged-but-false-within-an-if-statement
-const REGEX_NEGATIVE_NUM = /\-\d+/;
+const REGEX_NEGATIVE_NUM = /\-\d+/; //checks if negative number
+const REGEX_DECIMAL_IN_NUM = /\-?\d*\.\d*/ // checks if decimal is in number
 
 //SELECTORS
 const inputButtons = document.querySelectorAll('.numInput, .opInput'); //NOTE: PERIOD "." IS INCLUDED UNDER ".numInput"
@@ -51,11 +53,29 @@ function displayOnMainDisplay(input) {
     
     if ( !isNaN(input) || input === "." ) {
         //for numbers or decimal point
+
+        if (input === ".") {
+            //prevent multiple decimals in a number
+            //flag set to false if decimal encountered. else, operator encounter resets decimal flag
+            newDecimalAllowed = true;
+            for (let i = 0; i < mainDisplay.textContent.length; i++) {
+                if (mainDisplay.textContent.charAt(i) === ".") {
+                    newDecimalAllowed = false;
+                } else if (ARRAY_OPERATORS.indexOf( mainDisplay.textContent.charAt(i) ) !== -1) {
+                    newDecimalAllowed = true;
+                }
+            }
+            if (!newDecimalAllowed) //if new decimal not allowed, return without adding input to mainDisplay
+                return;
+        }
+
+        //adds input to mainDisplay
         if (mainDisplay.textContent === "0") {
             mainDisplay.textContent = input;
         } else {
             mainDisplay.textContent += input;    
         }
+
     } else if (input === "-" && mainDisplay.textContent === "0") {
         //dealing with making 0 mainDisplay negative
         mainDisplay.textContent = input;
