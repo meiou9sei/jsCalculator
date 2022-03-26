@@ -13,6 +13,7 @@ const REGEX_DECIMAL_IN_NUM = /\-?\d*\.\d*/ // checks if decimal is in number
 
 //global
 newEquation = false; //sets flag to true on operate, prevents new number input just concatenating to old number. if operator, then operates on old number regardless
+snarkyMessage = "idk"; //displayed if user attempts to divide by 0
 
 //SELECTORS
 const inputButtons = document.querySelectorAll('.numInput, .opInput'); //NOTE: PERIOD "." IS INCLUDED UNDER ".numInput"
@@ -54,6 +55,9 @@ function displayOnMainDisplay(input) {
     if (typeof input === "string") //this is not used if calling function from evaluateEquation
         input = input.trim(); //gets rid of extra space, idk why it's there
     
+    if (mainDisplay.textContent === snarkyMessage) //clears mainDisplay if snarkyMessage is on display
+        clearDisplay();
+
     if ( !isNaN(input) || input === "." ) {
         //for numbers or decimal point
 
@@ -78,7 +82,7 @@ function displayOnMainDisplay(input) {
                 } else if (mainDisplay.textContent.charAt(i) === ".") {
                     numberWithDecimal = true; //any number of 0s can follow decimal
                     newDecimalAllowed = false; //number now contains decimal, no further decimals allowed
-                    new0Allowed = true; //any number of 0s can follow a decimal
+                    newZeroAllowed = true; //any number of 0s can follow a decimal
                 } else if (!isNaN(mainDisplay.textContent.charAt(i)) && input !== "0") { //any non-0 digit
                     non0DigitExists = true; //a non-0 digit exists now
                     newZeroAllowed = true; //any number of 0s can follow a non-0 digit
@@ -198,7 +202,8 @@ function evaluateEquation (equation) {
     //deals with dividing by 0
     const REGEX_DIVIDE_BY_ZERO = /\/0*\.*00*$/;
     if (REGEX_DIVIDE_BY_ZERO.test(equationNoSpace)) {
-        mainDisplay.textContent = "idk"; 
+        mainDisplay.textContent = snarkyMessage;
+        historyDisplay.textContent = `${equation} = undefined`;
         return;
     }
 
