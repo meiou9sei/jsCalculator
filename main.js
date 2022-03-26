@@ -164,6 +164,14 @@ function checkIfEquation (equation) {
         return false;
     }
 
+
+    //deals with dividing by 0
+    const REGEX_DIVIDE_BY_ZERO = /\/0*\.*00*$/;
+    if (REGEX_DIVIDE_BY_ZERO.test(equationNoSpace)) {
+        mainDisplay.textContent = "idk"; 
+        return;
+    }
+
     let splitEquation = null;
     if (REGEX_NEGATIVE_NUM.test(equation)) {
         //deals with first number being negative 
