@@ -54,19 +54,39 @@ function displayOnMainDisplay(input) {
     if ( !isNaN(input) || input === "." ) {
         //for numbers or decimal point
 
-        if (input === ".") {
+        if (input === "." || input === "0") {
             //prevent multiple decimals in a number
-            //flag set to false if decimal encountered. else, operator encounter resets decimal flag
+                //flag set to false if decimal encountered. else, operator encounter resets decimal flag
+            //prevent multiple 0 on second number without decimal point
+                //flag set to true if decimal or operator encountered. flag set to false if 0 encountered
+            numberWithDecimal = false;
             newDecimalAllowed = true;
+            non0DigitExists = false;
+            newZeroAllowed = true;
             for (let i = 0; i < mainDisplay.textContent.length; i++) {
-                if (mainDisplay.textContent.charAt(i) === ".") {
-                    newDecimalAllowed = false;
-                } else if (ARRAY_OPERATORS.indexOf( mainDisplay.textContent.charAt(i) ) !== -1) {
-                    newDecimalAllowed = true;
+                if (mainDisplay.textContent.charAt(i) === " ") {
+                    numberWithDecimal = false; //new number, no decimal (yet, if ever)
+                    newDecimalAllowed = true; //new number, decimal is allowed till a decimal is set
+                    newZeroAllowed = true; //new number, any number is allowed
+                    non0DigitExists = false; //new number, no digit exists yet
+                } else if (mainDisplay.textContent.charAt(i) === ".") {
+                    numberWithDecimal = true; //any number of 0s can follow decimal
+                    newDecimalAllowed = false; //number now contains decimal, no further decimals allowed
+                    new0Allowed = true; //any number of 0s can follow a decimal
+                } else if (!isNaN(mainDisplay.textContent.charAt(i)) && input !== "0") { //any non-0 digit
+                    non0DigitExists = true; //a non-0 digit exists now
+                    newZeroAllowed = true; //any number of 0s can follow a non-0 digit
+                } else if (mainDisplay.textContent.charAt(i) === "0") {
+                    if ( ! (non0DigitExists || numberWithDecimal) )
+                        newZeroAllowed = false; //if there are no non-0 digits (there's an alone 0) AND there is no decimal yet, prevent new 0 input
                 }
             }
-            if (!newDecimalAllowed) //if new decimal not allowed, return without adding input to mainDisplay
+           
+            if (input === "." && newDecimalAllowed === false)
                 return;
+            if (input === "0" &&  newZeroAllowed === false)
+                return;
+
         }
 
         //adds input to mainDisplay
