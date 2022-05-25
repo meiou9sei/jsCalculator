@@ -4,4 +4,4 @@ https://www.theodinproject.com/paths/foundations/courses/foundations
 
 html/css/js
 
-try the live demo here: https://meiousei9.github.io/jsCalculator/
+try the live demo here: https://meiou9sei.github.io/jsCalculator/
